@@ -1,4 +1,6 @@
-//test
+#include <WiiChuck.h>
+
+Accessory nunchuck1;
 
 double y = 0;
 double x = 0;
@@ -6,54 +8,114 @@ double mag = .5;
 bool c = false;
 bool z = false;
 
-double breakCutoff = 3;
-
-int pwmR = 10; // unchanged
-int brakeR = 5; // unchanged
-int reverseR = 4; // unchanged 
-int pwmL = 9; // unchanged
-int brakeL = 3; // unchanged
-int reverseL = 2; // unchanged
+int pwmFR = 0; // unchanged
+int brakeFR = 0; // unchanged
+int reverseFR = 0; // unchanged 
+int pwmFL = 0; // unchanged
+int brakeFL = 0; // unchanged
+int reverseFL = 0; // unchanged
+int pwmBR = 0; // unchanged
+int brakeBR = 0; // unchanged
+int reverseBR = 0; // unchanged 
+int pwmBL = 0; // unchanged
+int brakeBL = 0; // unchanged
+int reverseBL = 0; // unchanged
 
 void setup() {
-  pinMode(reverseR, OUTPUT);
-  pinMode(brakeR, OUTPUT);
-  pinMode(reverseL, OUTPUT);
-  pinMode(brakeL, OUTPUT);
-  delay(3000);
+  pinMode(reverseFR, OUTPUT);
+  pinMode(brakeFR, OUTPUT);
+  pinMode(reverseFL, OUTPUT);
+  pinMode(brakeFL, OUTPUT);
+  pinMode(reverseBR, OUTPUT);
+  pinMode(brakeBR, OUTPUT);
+  pinMode(reverseBL, OUTPUT);
+  pinMode(brakeBL, OUTPUT);
   Serial.begin(9600);
+  nunchuck1.begin();
+	if (nunchuck1.type == Unknown) {
+		/** If the device isn't auto-detected, set the type explicatly
+		 * 	NUNCHUCK,
+		 WIICLASSIC,
+		 GuitarHeroController,
+		 GuitarHeroWorldTourDrums,
+		 DrumController,
+		 DrawsomeTablet,
+		 Turntable
+		 */
+		nunchuck1.type = NUNCHUCK;
+	}
 }
 
 void loop() {
+	nunchuck1.readData();
+  z = nunchuck1.values[10] >= 127.5;
+  c = nunchuck1.values[11] >= 127.5;
+  x = ((double)nunchuck1.values[0] / 127.5) - 1.0;
+  y = (((double)nunchuck1.values[1] / 127.5) - 1.0);
+  if(c){
+    mag = .5;
+  }else{
+    mag = .25;
+  }
   
   //left
-  setMotorSpdL((mag * (double)255) * (y + x));
+  setMotorSpdFL((mag * (double)255) * (y + x), z);
+  /*
+  setMotorSpdBL((mag * (double)255) * (y + x), z);
   //right
-  setMotorSpdR((mag * (double)255) * (y - x));
+  setMotorSpdFR((mag * (double)255) * (y - x), z);
+  setMotorSpdBR((mag * (double)255) * (y - x), z);
+  */
 }
-void setMotorSpdL(float spd){
+void setMotorSpdFL(float spd, bool brake){
   if(spd < 0){
-     digitalWrite(reverseL, HIGH);
+     digitalWrite(reverseFL, HIGH);
   }else{
-    digitalWrite(reverseL, LOW);
+    digitalWrite(reverseFL, LOW);
   }
-  if(abs(spd) < breakCutoff && rd < .5){
-     digitalWrite(brakeL, HIGH);
+  if(brake){
+     digitalWrite(brakeFL, HIGH);
   }else{
-    digitalWrite(brakeL, LOW);
+    digitalWrite(brakeFL, LOW);
   }
-  analogWrite(pwmL, abs(spd));
+  analogWrite(pwmFL, abs(spd));
 }
-void setMotorSpdR(float spd){
+void setMotorSpdBL(float spd, bool brake){
   if(spd < 0){
-     digitalWrite(reverseR, LOW);
+     digitalWrite(reverseBL, HIGH);
   }else{
-    digitalWrite(reverseR, HIGH);
+    digitalWrite(reverseBL, LOW);
   }
-  if(abs(spd) < breakCutoff && rd < .5){
-     digitalWrite(brakeR, HIGH);
+  if(brake){
+     digitalWrite(brakeBL, HIGH);
   }else{
-    digitalWrite(brakeR, LOW);
+    digitalWrite(brakeBL, LOW);
   }
-  analogWrite(pwmR, abs(spd));
+  analogWrite(pwmBL, abs(spd));
+}
+void setMotorSpdFR(float spd, bool brake){
+  if(spd < 0){
+     digitalWrite(reverseFR, HIGH);
+  }else{
+    digitalWrite(reverseFR, LOW);
+  }
+  if(brake){
+     digitalWrite(brakeFR, HIGH);
+  }else{
+    digitalWrite(brakeFR, LOW);
+  }
+  analogWrite(pwmFR, abs(spd));
+}
+void setMotorSpdBR(float spd, bool brake){
+  if(spd < 0){
+     digitalWrite(reverseBR, HIGH);
+  }else{
+    digitalWrite(reverseBR, LOW);
+  }
+  if(brake){
+     digitalWrite(brakeBR, HIGH);
+  }else{
+    digitalWrite(brakeBR, LOW);
+  }
+  analogWrite(pwmBR, abs(spd));
 }
