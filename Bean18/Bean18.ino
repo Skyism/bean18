@@ -8,18 +8,18 @@ double mag = .5;
 bool c = false;
 bool z = false;
 
-int pwmFR = 0; // unchanged
-int brakeFR = 0; // unchanged
-int reverseFR = 0; // unchanged 
-int pwmFL = 2; // unchanged
+int pwmFR = 37; // unchanged
+int brakeFR = 39; // unchanged
+int reverseFR = 41; // unchanged 
+int pwmFL = 31; // unchanged
 int brakeFL = 35; // unchanged
 int reverseFL = 33; // unchanged
-int pwmBR = 0; // unchanged
-int brakeBR = 0; // unchanged
-int reverseBR = 0; // unchanged 
-int pwmBL = 0; // unchanged
-int brakeBL = 0; // unchanged
-int reverseBL = 0; // unchanged
+int pwmBR = 43; // unchanged
+int brakeBR = 45; // unchanged
+int reverseBR = 47; // unchanged 
+int pwmBL = 49; // unchanged
+int brakeBL = 51; // unchanged
+int reverseBL = 53; // unchanged
 
 void setup() {
   pinMode(reverseFR, OUTPUT);
