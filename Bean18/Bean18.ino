@@ -69,12 +69,10 @@ void loop() {
   //left
   //Serial.println((mag * (double)255) * (y + x));
   setMotorSpdFL((mag * (double)255) * (y + x), z);
-  /*
   setMotorSpdBL((mag * (double)255) * (y + x), z);
   //right
   setMotorSpdFR((mag * (double)255) * (y - x), z);
   setMotorSpdBR((mag * (double)255) * (y - x), z);
-  */
 }
 void setMotorSpdFL(float spd, bool brake){
   if(spd < 0){
