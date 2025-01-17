@@ -11,9 +11,9 @@ bool z = false;
 int pwmFR = 0; // unchanged
 int brakeFR = 0; // unchanged
 int reverseFR = 0; // unchanged 
-int pwmFL = 0; // unchanged
-int brakeFL = 0; // unchanged
-int reverseFL = 0; // unchanged
+int pwmFL = 2; // unchanged
+int brakeFL = 35; // unchanged
+int reverseFL = 33; // unchanged
 int pwmBR = 0; // unchanged
 int brakeBR = 0; // unchanged
 int reverseBR = 0; // unchanged 
@@ -44,6 +44,7 @@ void setup() {
 		 */
 		nunchuck1.type = NUNCHUCK;
 	}
+  Serial.println("Starting");
 }
 
 void loop() {
@@ -52,13 +53,21 @@ void loop() {
   c = nunchuck1.values[11] >= 127.5;
   x = ((double)nunchuck1.values[0] / 127.5) - 1.0;
   y = (((double)nunchuck1.values[1] / 127.5) - 1.0);
+  
+  if(abs(x) < .1){
+      x = 0;
+  }
+  if(abs(y) < .1){
+     y = 0;
+  }
+  
   if(c){
     mag = .5;
   }else{
     mag = .25;
   }
-  
   //left
+  //Serial.println((mag * (double)255) * (y + x));
   setMotorSpdFL((mag * (double)255) * (y + x), z);
   /*
   setMotorSpdBL((mag * (double)255) * (y + x), z);
