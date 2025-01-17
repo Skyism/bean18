@@ -11,18 +11,21 @@ bool z = false;
 
 // CHECK ALL PINS
 
-int pwmFR = 37; // unchanged
-int brakeFR = 39; // unchanged
-int reverseFR = 41; // unchanged 
-int pwmFL = 31; // unchanged
-int brakeFL = 35; // unchanged
-int reverseFL = 33; // unchanged
-int pwmBR = 43; // unchanged
-int brakeBR = 45; // unchanged
-int reverseBR = 47; // unchanged 
-int pwmBL = 49; // unchanged
-int brakeBL = 51; // unchanged
-int reverseBL = 53; // unchanged
+int pwmFL = 3; 
+int brakeFL = 39; 
+int reverseFL = 41; 
+
+int pwmFR = 2; 
+int brakeFR = 35; 
+int reverseFR = 33; 
+
+int pwmBL = 5; 
+int brakeBL = 45; 
+int reverseBL = 47; 
+
+int pwmBR = 4; 
+int brakeBR = 51; 
+int reverseBR = 53; 
 
 void setup() {
   pinMode(reverseFR, OUTPUT);
@@ -63,11 +66,11 @@ void loop() {
   if(abs(y) < .1){
      y = 0;
   }
-  
+  //Serial.println(y);
   if(c){
-    mag = .5;
+    mag = .75;
   }else{
-    mag = .25;
+    mag = .5;
   }
   //left
   //Serial.println((mag * (double)255) * (y + x));
@@ -91,7 +94,7 @@ void setMotorSpdFL(float spd, bool brake){
   analogWrite(pwmFL, abs(spd));
 }
 void setMotorSpdBL(float spd, bool brake){
-  if(spd < 0){
+  if(spd > 0){
      digitalWrite(reverseBL, HIGH);
   }else{
     digitalWrite(reverseBL, LOW);
@@ -104,7 +107,7 @@ void setMotorSpdBL(float spd, bool brake){
   analogWrite(pwmBL, abs(spd));
 }
 void setMotorSpdFR(float spd, bool brake){
-  if(spd < 0){
+  if(spd > 0){
      digitalWrite(reverseFR, HIGH);
   }else{
     digitalWrite(reverseFR, LOW);
@@ -117,7 +120,7 @@ void setMotorSpdFR(float spd, bool brake){
   analogWrite(pwmFR, abs(spd));
 }
 void setMotorSpdBR(float spd, bool brake){
-  if(spd < 0){
+  if(spd > 0){
      digitalWrite(reverseBR, HIGH);
   }else{
     digitalWrite(reverseBR, LOW);
