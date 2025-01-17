@@ -8,6 +8,9 @@ double mag = .5;
 bool c = false;
 bool z = false;
 
+
+// CHECK ALL PINS
+
 int pwmFR = 37; // unchanged
 int brakeFR = 39; // unchanged
 int reverseFR = 41; // unchanged 
